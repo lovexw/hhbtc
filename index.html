@@ -3,29 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>比特币无知者名录"画展"</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>比特币无知者名录</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .gallery {
+            column-count: 2;
+            column-gap: 20px;
+        }
+        .item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .item img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .notice {
+            background: #fff8e1;
+            padding: 20px;
+            margin: 40px 0;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>比特币无知者名录"画展"</h1>
-    </header>
-    
-    <div class="announcement">
+    <div class="header">
+        <h1>比特币无知者名录</h1>
+    </div>
+
+    <div class="notice">
         <p>这是一个特别的"画展"，也是一场关于信仰与认知的行为艺术。我们精心收集了无数嘲讽比特币的言论，截屏、裱框、陈列——犹如博物馆里的化石，记录着那些曾信誓旦旦的"比特币归零论"。</p>
         <p>讽刺的是，他们的声音越响，比特币走得越远。今天我们不争论、不反驳，只静静地展出，让时间做评判。</p>
         <p>欢迎来到这个属于胜利者的纪念馆——在这里，笑到最后的人，才配有话语权。</p>
-        <p>这场展览不是对抗，而是宣告：<strong>嘲讽者的段子，终将成为文明进阶的注脚。而真正的胜利者，永远不需要解释。</strong></p>
+        <p>这场展览不是对抗，而是宣告：嘲讽者的段子，终将成为文明进阶的注脚。而真正的胜利者，永远不需要解释。</p>
     </div>
 
-    <main id="gallery-container">
-        <!-- 图片将通过JS动态加载 -->
-    </main>
+    <div class="gallery" id="gallery">
+        <!-- 图片将通过JavaScript动态加载 -->
+    </div>
 
-    <script src="script.js"></script>
-<footer class="disclaimer">
-    <p>可能有人已经"改邪归正"了，可以联系微信 btcxwly，进行删除。</p>
-    <p>本网站非商业，代码开源，且所有截图均来自公开互联网。</p>
-</footer>
+    <div class="footer">
+        <p>可能有人已经"改邪归正"了，可以联系微信 btcxwly，进行删除。</p>
+        <p>本网站非商业，代码开源，且所有截图均来自公开互联网。</p>
+    </div>
+
+    <script>
+        // 图片数据
+        const imageCount = 60;
+        const gallery = document.getElementById('gallery');
+
+        // 加载图片
+        function loadImages() {
+            for (let i = 1; i <= imageCount; i++) {
+                const imgNum = i.toString().padStart(2, '0');
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `<img src="images/${imgNum}.jpg" alt="比特币无知者名录 ${i}">`;
+                gallery.appendChild(item);
+            }
+        }
+
+        // 初始加载
+        loadImages();
+    </script>
 </body>
 </html>
