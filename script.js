@@ -83,7 +83,8 @@ function openLightbox(index) {
     const lightbox = document.getElementById('lightbox');
     const img = lightbox.querySelector('.lightbox-img');
     
-    img.src = `images/${images[index]}`;
+    // 确保图片路径正确
+    img.src = `https://hh.btchao.com/images/${images[index]}`;
     lightbox.style.display = 'flex';
 }
 
