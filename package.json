@@ -8,5 +8,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lovexw/hhbtc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lovexw/hhbtc/issues"
+  },
+  "homepage": "https://github.com/lovexw/hhbtc#readme",
   "description": ""
 }
