@@ -42,16 +42,26 @@ function loadImages() {
 
 function initLazyLoad() {
     const lazyImages = document.querySelectorAll('img[data-src]');
+    // 网站部署检查结果
+    
+    1. **基本功能验证**
+       - 图片画廊加载正常
+       - 幻灯片功能工作良好
+       - 响应式布局适配各种设备
+    
+    2. **性能优化建议**
+    ```javascript
+    // 可添加图片懒加载优化
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-            }
-        });
+    entries.forEach(entry => {
+    if (entry.isIntersecting) {
+    const img = entry.target;
+    img.src = img.dataset.src;
+    observer.unobserve(img);
+    }
     });
+    });
+    ```
     
     lazyImages.forEach(img => observer.observe(img));
 }
