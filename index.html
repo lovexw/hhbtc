@@ -70,6 +70,8 @@
             color: #666;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"></script>
 </head>
 <body>
     <div class="header">
@@ -83,7 +85,7 @@
         <p>这场展览不是对抗，而是宣告：嘲讽者的段子，终将成为文明进阶的注脚。而真正的胜利者，永远不需要解释。</p>
     </div>
 
-    <div class="gallery" id="gallery">
+    <div class="container" id="image-gallery">
         <!-- 图片将通过JavaScript动态加载 -->
     </div>
 
@@ -95,21 +97,79 @@
     <script>
         // 图片数据
         const imageCount = 60;
-        const gallery = document.getElementById('gallery');
+const imageGallery = document.getElementById('image-gallery');
 
         // 加载图片
+        // 修改loadImages函数，移除对gallery的依赖
         function loadImages() {
-            for (let i = 1; i <= imageCount; i++) {
-                const imgNum = i.toString().padStart(2, '0');
+            const container = document.querySelector('.container');
+            
+            // 先清空容器，避免重复加载
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 60; i++) {
                 const item = document.createElement('div');
                 item.className = 'item';
-                item.innerHTML = `<img src="images/${imgNum}.jpg" alt="比特币无知者名录 ${i}">`;
-                gallery.appendChild(item);
+                
+                const img = document.createElement('img');
+                img.src = `images/${i < 10 ? '0' + i : i}.jpg`;
+                img.setAttribute('data-original', `images/${i < 10 ? '0' + i : i}.jpg`);
+                
+                item.appendChild(img);
+                container.appendChild(item);
             }
+            
+            // 确保只在所有图片加载完成后初始化viewer
+            initViewer();
         }
+        
+        // 添加新的初始化函数
+        function initViewer() {
+            const gallery = new Viewer(document.getElementById('image-gallery'), {
+                url: 'data-original',
+                navbar: false,
+                title: false,
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 0,
+                    play: 0,
+                    next: 0,
+                    rotateLeft: 1,
+                    rotateRight: 1,
+                    flipHorizontal: 1,
+                    flipVertical: 1,
+                }
+            });
+        }
+        
+        // 调用loadImages
+        loadImages();
 
         // 初始加载
         loadImages();
-    </script>
+
+        // 初始化图片查看器
+        const gallery = new Viewer(document.getElementById('image-gallery'), {
+            url: 'data-original',
+            navbar: false,
+            title: false,
+            toolbar: {
+                zoomIn: 1,
+                zoomOut: 1,
+                oneToOne: 1,
+                reset: 1,
+                prev: 0,
+                play: 0,
+                next: 0,
+                rotateLeft: 1,
+                rotateRight: 1,
+                flipHorizontal: 1,
+                flipVertical: 1,
+            }
+        });
+        </script>
 </body>
 </html>
