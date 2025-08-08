@@ -31,5 +31,41 @@ class ImageLoader {
     }
 }
 
+// 灯箱功能
+function initLightbox() {
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = `
+        <span class="close-btn">&times;</span>
+        <span class="nav-btn prev-btn">&lt;</span>
+        <span class="nav-btn next-btn">&gt;</span>
+        <img class="lightbox-img" src="" alt="">
+    `;
+    document.body.appendChild(lightbox);
+
+    // 事件监听
+    document.querySelectorAll('.gallery-img').forEach(img => {
+        img.addEventListener('click', () => {
+            openLightbox(img.src);
+        });
+    });
+
+    lightbox.querySelector('.close-btn').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.prev-btn').addEventListener('click', prevSlide);
+    lightbox.querySelector('.next-btn').addEventListener('click', nextSlide);
+}
+
+function openLightbox(src) {
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('.lightbox-img');
+    lightboxImg.src = src;
+    lightbox.style.display = 'flex';
+}
+
+function closeLightbox() {
+    document.querySelector('.lightbox').style.display = 'none';
+}
+
 // 初始化
+initLightbox();
 new ImageLoader();

@@ -12,21 +12,86 @@ header {
     text-align: center;
 }
 
+/* 画廊布局 */
 #gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 .gallery-img {
     width: 100%;
-    height: auto;
+    height: 300px;
+    object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
     transition: transform 0.3s;
 }
 
 .gallery-img:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
+}
+
+/* 灯箱样式 */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.prev-btn { left: 30px; }
+.next-btn { right: 30px; }
+
+
+.announcement {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #f7931a;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    line-height: 1.6;
+    font-size: 16px;
+    color: #333;
+}
+
+.announcement p {
+    margin-bottom: 15px;
+}
+
+.announcement strong {
+    color: #f7931a;
+    font-weight: bold;
 }
