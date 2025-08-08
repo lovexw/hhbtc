@@ -111,3 +111,17 @@ header {
     color: #f7931a;
     font-weight: bold;
 }
+
+.disclaimer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #666;
+    border-top: 1px solid #eee;
+}
+
+.disclaimer p {
+    margin: 10px 0;
+    line-height: 1.6;
+}

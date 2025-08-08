@@ -2,19 +2,35 @@
 class ImageLoader {
     constructor() {
         this.gallery = document.getElementById('gallery-container');
+        this.currentIndex = 1;
+        this.batchSize = 10; // 每次加载10张
         this.init();
     }
 
-    init() {
+    async init() {
+        this.totalImages = await this.getImageCount();
         this.loadImages();
         window.addEventListener('scroll', () => this.checkScroll());
     }
 
+    async getImageCount() {
+        try {
+            const response = await fetch('/images');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const html = parser.parseFromString(text, 'text/html');
+            const links = html.querySelectorAll('a[href$=".jpg"]');
+            return links.length;
+        } catch {
+            // 如果无法获取目录列表，默认返回一个较大的数字
+            return 100; 
+        }
+    }
+
     loadImages() {
-        // 动态获取图片数量
-        const imageCount = 10; // 根据实际图片数量调整
+        const endIndex = Math.min(this.currentIndex + this.batchSize - 1, this.totalImages);
         
-        for(let i = 1; i <= imageCount; i++) {
+        for(let i = this.currentIndex; i <= endIndex; i++) {
             const imgNum = i.toString().padStart(2, '0');
             const imgElement = document.createElement('img');
             imgElement.className = 'gallery-img';
@@ -29,16 +45,14 @@ class ImageLoader {
             
             this.gallery.appendChild(imgElement);
         }
+        
+        this.currentIndex = endIndex + 1;
     }
 
     checkScroll() {
-        // 移除自动加载逻辑
-        // 仅保留滚动事件监听
-    }
-
-    init() {
-        this.loadImages(); // 只加载一次
-        // 移除滚动事件监听
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+            this.loadImages();
+        }
     }
 }
 
