@@ -11,23 +11,34 @@ class ImageLoader {
     }
 
     loadImages() {
-        // 自动加载images文件夹中的图片
-        for(let i = 1; i <= 7; i++) {
+        // 动态获取图片数量
+        const imageCount = 10; // 根据实际图片数量调整
+        
+        for(let i = 1; i <= imageCount; i++) {
             const imgNum = i.toString().padStart(2, '0');
             const imgElement = document.createElement('img');
             imgElement.className = 'gallery-img';
             imgElement.loading = 'lazy';
             imgElement.src = `images/${imgNum}.jpg`;
             imgElement.alt = `比特币艺术 ${imgNum}`;
+            
+            // 添加点击事件
+            imgElement.addEventListener('click', () => {
+                openLightbox(imgElement.src);
+            });
+            
             this.gallery.appendChild(imgElement);
         }
     }
 
     checkScroll() {
-        // 滚动加载逻辑
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
-            this.loadImages();
-        }
+        // 移除自动加载逻辑
+        // 仅保留滚动事件监听
+    }
+
+    init() {
+        this.loadImages(); // 只加载一次
+        // 移除滚动事件监听
     }
 }
 
@@ -64,6 +75,22 @@ function openLightbox(src) {
 
 function closeLightbox() {
     document.querySelector('.lightbox').style.display = 'none';
+}
+
+function prevSlide() {
+    const currentImg = document.querySelector('.lightbox-img');
+    const currentSrc = currentImg.src;
+    const currentNum = parseInt(currentSrc.match(/(\d+)\.jpg$/)[1]);
+    const prevNum = currentNum > 1 ? currentNum - 1 : 7;
+    currentImg.src = currentSrc.replace(/\d+\.jpg$/, `${prevNum.toString().padStart(2, '0')}.jpg`);
+}
+
+function nextSlide() {
+    const currentImg = document.querySelector('.lightbox-img');
+    const currentSrc = currentImg.src;
+    const currentNum = parseInt(currentSrc.match(/(\d+)\.jpg$/)[1]);
+    const nextNum = currentNum < 7 ? currentNum + 1 : 1;
+    currentImg.src = currentSrc.replace(/\d+\.jpg$/, `${nextNum.toString().padStart(2, '0')}.jpg`);
 }
 
 // 初始化
