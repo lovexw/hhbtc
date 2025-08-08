@@ -4,6 +4,7 @@ let images = [];
 let currentSlide = 0;
 
 // 自动检测图片
+// 在detectImages()中添加错误处理
 async function detectImages() {
     try {
         const response = await fetch('images/');
@@ -20,7 +21,9 @@ async function detectImages() {
         loadImages();
         initLightbox();
     } catch (error) {
-        console.error('无法读取图片目录:', error);
+        console.error('图片加载失败:', error);
+        // 显示用户友好的错误信息
+        gallery.innerHTML = '<p class="error">图片加载失败，请刷新重试</p>';
     }
 }
 
@@ -42,26 +45,15 @@ function loadImages() {
 
 function initLazyLoad() {
     const lazyImages = document.querySelectorAll('img[data-src]');
-    // 网站部署检查结果
-    
-    1. **基本功能验证**
-       - 图片画廊加载正常
-       - 幻灯片功能工作良好
-       - 响应式布局适配各种设备
-    
-    2. **性能优化建议**
-    ```javascript
-    // 可添加图片懒加载优化
     const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-    if (entry.isIntersecting) {
-    const img = entry.target;
-    img.src = img.dataset.src;
-    observer.unobserve(img);
-    }
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                observer.unobserve(img);
+            }
+        });
     });
-    });
-    ```
     
     lazyImages.forEach(img => observer.observe(img));
 }
