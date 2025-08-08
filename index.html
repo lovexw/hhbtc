@@ -21,8 +21,31 @@
             column-gap: 20px;
         }
         .item {
-            break-inside: avoid;
+            width: 100%;
             margin-bottom: 20px;
+        }
+        .item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        @media (min-width: 768px) {
+            /* 电脑端两栏布局 */
+            .container {
+                column-count: 2;
+                column-gap: 20px;
+            }
+            .item {
+                break-inside: avoid;
+            }
+        }
+        @media (max-width: 767px) {
+            /* 手机端单栏布局 */
+            .container {
+                column-count: 1;
+            }
+        }
+        .item {
             background: white;
             padding: 15px;
             border-radius: 8px;
