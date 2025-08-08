@@ -6,11 +6,16 @@
     <title>比特币无知者名录</title>
     <style>
         body {
-            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+        }
+        .container {
+            padding: 20px 0;
         }
         .header {
             text-align: center;
@@ -47,9 +52,16 @@
         }
         .item {
             background: white;
-            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .item img {
             width: 100%;
@@ -68,6 +80,37 @@
             margin-top: 40px;
             font-size: 14px;
             color: #666;
+        }
+        h1 {
+            color: #222;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        .announcement {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .disclaimer {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .item {
+                margin-bottom: 15px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css">
