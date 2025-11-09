@@ -109,10 +109,22 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
+        .marquee-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .marquee-row:last-child {
+            margin-bottom: 0;
+        }
+
         .marquee-track {
             display: flex;
             width: fit-content;
-            animation: scroll 120s linear infinite;
+            animation: scroll 240s linear infinite;
+        }
+
+        .marquee-track.reverse {
+            animation: scrollReverse 240s linear infinite;
         }
 
         @keyframes scroll {
@@ -121,6 +133,15 @@
             }
             100% {
                 transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scrollReverse {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
             }
         }
 
@@ -138,6 +159,7 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
 
         .marquee-item:hover {
@@ -149,6 +171,31 @@
             width: 100%;
             height: auto;
             display: block;
+            pointer-events: none;
+        }
+
+        /* Poop effect */
+        .poop-effect {
+            position: fixed;
+            font-size: 48px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: throwPoop 1.5s ease-out forwards;
+        }
+
+        @keyframes throwPoop {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(var(--throw-x), -150px) rotate(360deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--throw-x), 300px) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         .footer {
@@ -272,8 +319,20 @@
         <div class="gallery-section">
             <h2 class="gallery-title">📸 历史瞬间回顾</h2>
             <div class="marquee-container">
-                <div class="marquee-track" id="marquee-track">
-                    <!-- 图片将通过JavaScript动态加载 -->
+                <div class="marquee-row">
+                    <div class="marquee-track" id="marquee-track-1">
+                        <!-- 图片将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+                <div class="marquee-row">
+                    <div class="marquee-track reverse" id="marquee-track-2">
+                        <!-- 图片将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+                <div class="marquee-row">
+                    <div class="marquee-track" id="marquee-track-3">
+                        <!-- 图片将通过JavaScript动态加载 -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -299,14 +358,13 @@
             return imageNumbers;
         }
 
-        // 加载图片
-        function loadImages() {
-            const track = document.getElementById('marquee-track');
-            const randomOrder = getRandomImageOrder();
+        // 加载图片到指定的轨道
+        function loadImagesToTrack(trackId, imageNumbers) {
+            const track = document.getElementById(trackId);
             
             // 创建两份图片集以实现无缝循环
             for (let i = 0; i < 2; i++) {
-                randomOrder.forEach(num => {
+                imageNumbers.forEach(num => {
                     const item = document.createElement('div');
                     item.className = 'marquee-item';
                     
@@ -325,37 +383,93 @@
                     track.appendChild(item);
                 });
             }
+        }
+
+        // 加载图片
+        function loadImages() {
+            // 为每个轨道生成不同的随机顺序
+            const order1 = getRandomImageOrder();
+            const order2 = getRandomImageOrder();
+            const order3 = getRandomImageOrder();
+            
+            loadImagesToTrack('marquee-track-1', order1);
+            loadImagesToTrack('marquee-track-2', order2);
+            loadImagesToTrack('marquee-track-3', order3);
             
             // 初始化图片查看器
             initViewer();
+            
+            // 初始化点击扔💩效果
+            initPoopEffect();
         }
 
         // 初始化Viewer.js
         function initViewer() {
-            const track = document.getElementById('marquee-track');
-            new Viewer(track, {
-                url: 'data-original',
-                navbar: true,
-                title: false,
-                toolbar: {
-                    zoomIn: 1,
-                    zoomOut: 1,
-                    oneToOne: 1,
-                    reset: 1,
-                    prev: 1,
-                    play: {
-                        show: 1,
-                        size: 'large',
+            const tracks = [
+                document.getElementById('marquee-track-1'),
+                document.getElementById('marquee-track-2'),
+                document.getElementById('marquee-track-3')
+            ];
+            
+            tracks.forEach(track => {
+                new Viewer(track, {
+                    url: 'data-original',
+                    navbar: true,
+                    title: false,
+                    toolbar: {
+                        zoomIn: 1,
+                        zoomOut: 1,
+                        oneToOne: 1,
+                        reset: 1,
+                        prev: 1,
+                        play: {
+                            show: 1,
+                            size: 'large',
+                        },
+                        next: 1,
+                        rotateLeft: 1,
+                        rotateRight: 1,
+                        flipHorizontal: 1,
+                        flipVertical: 1,
                     },
-                    next: 1,
-                    rotateLeft: 1,
-                    rotateRight: 1,
-                    flipHorizontal: 1,
-                    flipVertical: 1,
-                },
-                transition: true,
-                keyboard: true,
+                    transition: true,
+                    keyboard: true,
+                });
             });
+        }
+
+        // 初始化点击扔💩效果
+        function initPoopEffect() {
+            document.querySelectorAll('.marquee-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // 只有在不是打开查看器的情况下才触发💩效果
+                    const rect = this.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    
+                    createPoopEffect(x, y);
+                });
+            });
+        }
+
+        // 创建💩动画效果
+        function createPoopEffect(x, y) {
+            const poop = document.createElement('div');
+            poop.className = 'poop-effect';
+            poop.textContent = '💩';
+            poop.style.left = x + 'px';
+            poop.style.top = y + 'px';
+            
+            // 随机抛出方向
+            const throwX = (Math.random() - 0.5) * 200;
+            poop.style.setProperty('--throw-x', throwX + 'px');
+            
+            document.body.appendChild(poop);
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                poop.remove();
+            }, 1500);
         }
 
         // 页面加载完成后执行
